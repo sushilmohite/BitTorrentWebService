@@ -46,9 +46,10 @@ public class BitTorrentWS {
      * PUT method for updating or creating an instance of BitTorrentWS
      * @param fileName
      * @param fileHash
+     * @param fileSize
      */
     @PUT
     @Consumes("text/plain")
-    public void createTorrent(@QueryParam("fileName") String fileName, @QueryParam("fileHash") String fileHash) {
+    public void createTorrent(@QueryParam("fileName") String fileName, @QueryParam("fileHash") String fileHash, @QueryParam("fileSize") String fileSize) {
     }
 }
