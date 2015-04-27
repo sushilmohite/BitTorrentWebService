@@ -13,6 +13,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 
 /**
  * REST Web Service
@@ -22,8 +23,8 @@ import javax.ws.rs.Produces;
 @Path("resource")
 public class BitTorrentWS {
 
-    @Context
-    private UriInfo context;
+//    @Context
+//    private UriInfo context;
 
     /**
      * Creates a new instance of BitTorrentWS
@@ -37,19 +38,17 @@ public class BitTorrentWS {
      */
     @GET
     @Produces("text/plain")
-    public boolean getText() {
-        //TODO return proper representation object
-        //throw new UnsupportedOperationException();
-        return true;
+    public String getTorrents() {
+        return "";
     }
 
     /**
      * PUT method for updating or creating an instance of BitTorrentWS
-     * @param content representation for the resource
-     * @return an HTTP response with content of the updated or created resource.
+     * @param fileName
+     * @param fileHash
      */
     @PUT
     @Consumes("text/plain")
-    public void putText(String content) {
+    public void createTorrent(@QueryParam("fileName") String fileName, @QueryParam("fileHash") String fileHash) {
     }
 }
