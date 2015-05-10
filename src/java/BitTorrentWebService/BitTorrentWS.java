@@ -73,8 +73,8 @@ public class BitTorrentWS {
             torrent.setFileHash(fileHash);
             torrent.setFileSize(fileSize);
             torrent.setNumberOfChunks(numberOfChunks);
-            torrent.setChunkSize(fileSize / numberOfChunks);
-            torrent.setLastChunkSize(fileSize % numberOfChunks);
+            torrent.setChunkSize((int)(fileSize / numberOfChunks));
+            torrent.setLastChunkSize((int)((fileSize % numberOfChunks) + torrent.getChunkSize()));
             
             Random random = new Random();
             int n = random.nextInt(trackers.size());
