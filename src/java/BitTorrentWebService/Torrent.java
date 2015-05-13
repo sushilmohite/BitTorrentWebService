@@ -6,21 +6,44 @@
 package BitTorrentWebService;
 
 import java.io.Serializable;
+import java.util.Scanner;
 
 /**
  *
  * @author Sushil Mohite
  */
 public class Torrent implements Serializable {
-    
-    private String[] trackerIP;
+
+    private static final long serialVersionUID = 1L;
     private final String fileName;
     private String fileHash;
     private long fileSize;
+    private String[] trackerIP;
     private int numberOfChunks;
     private int chunkSize;
     private int lastChunkSize;
-    
+
+    public Torrent(String fileName, long fileSize, int chunkSize) {
+        this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.chunkSize = chunkSize;
+        if (fileSize % chunkSize == 0) {
+            this.numberOfChunks = (int) (fileSize / chunkSize);
+        } else {
+            this.numberOfChunks = (int) (fileSize / chunkSize) + 1;
+        }
+    }
+
+    public Torrent(String fileName, String fileHash, long fileSize, String[] trackerIP, int numberOfChunks, int chunkSize, int lastChunkSize) {
+        this.fileName = fileName;
+        this.fileHash = fileHash;
+        this.fileSize = fileSize;
+        this.trackerIP = trackerIP;
+        this.numberOfChunks = numberOfChunks;
+        this.chunkSize = chunkSize;
+        this.lastChunkSize = lastChunkSize;
+    }
+
     public Torrent(String fileName) {
         this.fileName = fileName;
     }
@@ -114,5 +137,43 @@ public class Torrent implements Serializable {
      */
     public void setLastChunkSize(int lastChunkSize) {
         this.lastChunkSize = lastChunkSize;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer(fileName);
+        buf.append(",");
+        buf.append(fileHash);
+        buf.append(",");
+        buf.append(fileSize);
+        buf.append(",");
+        for (int i = 0; i < trackerIP.length; i++) {
+            buf.append(trackerIP[i]);
+            if (i != trackerIP.length - 1) {
+                buf.append(";");
+            }
+        }
+        buf.append(",");
+        buf.append(numberOfChunks);
+        buf.append(",");
+        buf.append(chunkSize);
+        buf.append(",");
+        buf.append(lastChunkSize);
+
+        return buf.toString();
+    }
+
+    public static Torrent decode(String str) {
+        Scanner sc = new Scanner(str);
+        sc.useDelimiter(",");
+        String fileName = sc.next();
+        String fileHash = sc.next();
+        long fileSize = sc.nextLong();
+        String[] trackerIP = sc.next().split(";");
+        int numberOfChunks = sc.nextInt();
+        int chunkSize = sc.nextInt();
+        int lastChunkSize = sc.nextInt();
+        sc.close();
+        return new Torrent(fileName, fileHash, fileSize, trackerIP, numberOfChunks, chunkSize, lastChunkSize);
     }
 }
